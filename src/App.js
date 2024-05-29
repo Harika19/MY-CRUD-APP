@@ -1,25 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from 'react';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+const App = ()=> {
+  const [items, setItem] = useState([]);
+  const [name, setName] =useState('');
+
+  const addItem = (item)=>{
+    return setItem([...items, item]);
+  }
+
+  const deleteItem = (delItem)=>{
+    return setItem(items.filter(item => item!=delItem));
+  }
+
+
+  return(
+    <div>
+      <h1>
+        CRUD App
+      </h1>
+      <input input="text" value={name} onChange={e =>setName(e.target.value)}/>
+      <br/>
+      <br/>
+      <button onClick={()=> addItem(name)}>Add Item</button>
+      <button onClick={()=> deleteItem(name)}> Delete Item</button>
+      <div>
+        <h2>Result: </h2>
+        {items.length? items.map(item=> <div>{item}</div>) : <div>no items</div> }
+      </div>
     </div>
-  );
+  )
 }
 
 export default App;
