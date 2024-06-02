@@ -1,34 +1,25 @@
-import React, {useState} from 'react';
+import React, { useState } from "react";
+import { Navbar } from "./components/Navbar";
+import Header from "./components/Header";
+import AddTaskForm from "./components/AddTaskForm";
+import ShowItems from "./components/ShowItems";
+import { FormContextProvider, useShowForm } from "./contexts/FormContext";
 
-const App = ()=> {
-  const [items, setItem] = useState([]);
-  const [name, setName] =useState('');
+const App = () => {
+  const [taskList, setTaskList] = useState([]);
 
-  const addItem = (item)=>{
-    return setItem([...items, item]);
-  }
+  const passState = (taskDetail) => {
+    setTaskList([...taskList, taskDetail]);
+  };
 
-  const deleteItem = (delItem)=>{
-    return setItem(items.filter(item => item!=delItem));
-  }
-
-
-  return(
-    <div>
-      <h1>
-        CRUD App
-      </h1>
-      <input input="text" value={name} onChange={e =>setName(e.target.value)}/>
-      <br/>
-      <br/>
-      <button onClick={()=> addItem(name)}>Add Item</button>
-      <button onClick={()=> deleteItem(name)}> Delete Item</button>
-      <div>
-        <h2>Result: </h2>
-        {items.length? items.map(item=> <div>{item}</div>) : <div>no items</div> }
-      </div>
-    </div>
-  )
-}
+  return (
+    <FormContextProvider>
+      <Navbar />
+      <Header />
+      <AddTaskForm passState={passState} />
+      <ShowItems taskList={taskList} />
+    </FormContextProvider>
+  );
+};
 
 export default App;
